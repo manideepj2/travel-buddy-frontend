@@ -21,6 +21,7 @@ const Login = () => {
           <TextField
             label="Email"
             fullWidth
+            sx={{ mb: 1 }}
             variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -31,21 +32,27 @@ const Login = () => {
             type="password"
             fullWidth
             variant="outlined"
+            sx={{ mb:1 }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
-          <Button variant="contained" fullWidth onClick={handleLogin}>
-            Login
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              sx={{ width: 100 }}
+              variant="contained"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </div>
         </div>
 
-        <div className="my-6">
+        <div className="my-4">
           <Divider>OR</Divider>
         </div>
 
         <div className="space-y-3">
-          <Button variant="outlined" fullWidth startIcon={<GoogleIcon />}>
+          <Button variant="outlined" sx={{ mb: 1 }} fullWidth startIcon={<GoogleIcon />}>
             Continue with Google
           </Button>
 
@@ -54,7 +61,7 @@ const Login = () => {
           </Button>
         </div>
 
-        <p className="text-sm text-center mt-6">
+        <p className="text-md text-center mt-4">
           Don't have an account?{" "}
           <Link to="/register" className="text-blue-600 hover:underline">
             Register
