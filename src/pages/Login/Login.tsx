@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { TextField, Button, Divider, Typography } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import { TextField, Button, Typography } from "@mui/material";
+import AuthByThirdParty from "../../components/AuthByThirdParty";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    console.log({ email, password });
+  const handleLogin = (values: any) => {
+    console.log("Login Data:", values);
   };
+
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const LoginSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -33,55 +41,60 @@ const Login = () => {
       </div>
       <div className="w-[400px] p-8 rounded-xl shadow-lg">
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={LoginSchema}
+          onSubmit={handleLogin}
+        >
+          {({ values, errors, touched, handleChange, handleBlur }) => (
+            <Form>
+              <div className="space-y-4">
+                <TextField
+                  label="email"
+                  name="email"
+                  fullWidth
+                  sx={{ mb: 1 }}
+                  variant="outlined"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
+                />
 
-        <div className="space-y-4">
-          <TextField
-            label="Email"
-            fullWidth
-            sx={{ mb: 1 }}
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+                <TextField
+                  label="password"
+                  name="password"
+                  type="password"
+                  fullWidth
+                  variant="outlined"
+                  sx={{ mb: 1 }}
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
+                />
+                <p className="text-md mb-1">
+                  Forgot your password?{" "}
+                  <Link
+                    to="/forgot-password"
+                    className="text-blue-600 hover:underline"
+                  >
+                    Click here
+                  </Link>
+                </p>
+                <div className="flex justify-center">
+                  <Button sx={{ width: 100 }} variant="contained" type="submit">
+                    Login
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
 
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 1 }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="flex justify-center">
-            <Button
-              sx={{ width: 100 }}
-              variant="contained"
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          </div>
-        </div>
-
-        <div className="my-4">
-          <Divider>OR</Divider>
-        </div>
-
-        <div className="space-y-3">
-          <Button
-            variant="outlined"
-            sx={{ mb: 1 }}
-            fullWidth
-            startIcon={<GoogleIcon />}
-          >
-            Continue with Google
-          </Button>
-
-          <Button variant="outlined" fullWidth startIcon={<FacebookIcon />}>
-            Continue with Facebook
-          </Button>
-        </div>
+        <AuthByThirdParty />
 
         <p className="text-md text-center mt-4">
           Don't have an account?{" "}

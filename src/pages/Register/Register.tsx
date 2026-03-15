@@ -2,8 +2,7 @@ import { TextField, Button, Box, Divider } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import AuthByThirdParty from "../../components/AuthByThirdParty";
 
 const RegisterSchema = Yup.object({
   firstname: Yup.string().required("First name is required"),
@@ -125,24 +124,7 @@ const Register = () => {
             Login
           </Link>
         </p>
-        <div className="my-4">
-          <Divider>OR</Divider>
-        </div>
-
-        <div className="space-y-3">
-          <Button
-            variant="outlined"
-            sx={{ mb: 1 }}
-            fullWidth
-            startIcon={<GoogleIcon />}
-          >
-            Continue with Google
-          </Button>
-
-          <Button variant="outlined" fullWidth startIcon={<FacebookIcon />}>
-            Continue with Facebook
-          </Button>
-        </div>
+          <AuthByThirdParty />
       </div>
     </div>
   );
